@@ -74,25 +74,75 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
 
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.define "server0" do |server|
+    server.vm.provision "shell", inline: <<-SHELL
     set -e
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
     apt-get install -y --no-install-recommends ansible git
-    # apt-get install -y --no-install-recommends apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-    # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    # add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    # apt-get update
-    # apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io
-    # apt-get install -y --no-install-recommends docker-compose
 
     GITDIR="${HOME}/isucon10-qualify"
     rm -rf ${GITDIR}
     git clone https://github.com/ER-Karato/isucon10-qualify.git ${GITDIR}
     (
-      cd ${GITDIR}/provisioning/ansible
-      PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i allinone, --connection=local allinone.yaml
+        cd ${GITDIR}/provisioning/ansible
+        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i bench, --connection=local bench.yaml
     )
     rm -rf ${GITDIR}
-  SHELL
+    SHELL
+  end
+
+  config.vm.define "server1" do |server|
+    server.vm.provision "shell", inline: <<-SHELL
+    set -e
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends ansible git
+
+    GITDIR="${HOME}/isucon10-qualify"
+    rm -rf ${GITDIR}
+    git clone https://github.com/ER-Karato/isucon10-qualify.git ${GITDIR}
+    (
+        cd ${GITDIR}/provisioning/ansible
+        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i competitor, --connection=local competitor.yaml
+    )
+    rm -rf ${GITDIR}
+    SHELL
+  end
+
+  config.vm.define "server2" do |server|
+    server.vm.provision "shell", inline: <<-SHELL
+    set -e
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends ansible git
+
+    GITDIR="${HOME}/isucon10-qualify"
+    rm -rf ${GITDIR}
+    git clone https://github.com/ER-Karato/isucon10-qualify.git ${GITDIR}
+    (
+        cd ${GITDIR}/provisioning/ansible
+        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i competitor, --connection=local competitor.yaml
+    )
+    rm -rf ${GITDIR}
+    SHELL
+  end
+
+  config.vm.define "server3" do |server|
+    server.vm.provision "shell", inline: <<-SHELL
+    set -e
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends ansible git
+
+    GITDIR="${HOME}/isucon10-qualify"
+    rm -rf ${GITDIR}
+    git clone https://github.com/ER-Karato/isucon10-qualify.git ${GITDIR}
+    (
+        cd ${GITDIR}/provisioning/ansible
+        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i competitor, --connection=local competitor.yaml
+    )
+    rm -rf ${GITDIR}
+    SHELL
+  end
 end
