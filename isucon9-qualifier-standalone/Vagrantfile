@@ -93,18 +93,18 @@ Vagrant.configure("2") do |config|
   SHELL
 
   config.vm.provision "benchmarker", inline: <<-SHELL
-  set -e
-  export DEBIAN_FRONTEND=noninteractive
-  apt-get update
-  apt-get install -y --no-install-recommends ansible git
+    set -e
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends ansible git
 
-  GITDIR="/tmp/ansible-isucon9-qualify"
-  rm -rf ${GITDIR}
-  git clone https://github.com/ER-Karato/ansible-isucon9-qualify.git ${GITDIR}
-  (
-    cd ${GITDIR}
-    PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i benchmarker, --connection=local benchmarker.yml
-  )
-  rm -rf ${GITDIR}
-SHELL
+    GITDIR="/tmp/ansible-isucon9-qualify"
+    rm -rf ${GITDIR}
+    git clone https://github.com/ER-Karato/ansible-isucon9-qualify.git ${GITDIR}
+    (
+      cd ${GITDIR}
+      PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i benchmarker, --connection=local benchmarker.yml
+    )
+    rm -rf ${GITDIR}
+  SHELL
 end
