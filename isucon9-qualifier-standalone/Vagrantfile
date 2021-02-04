@@ -76,7 +76,8 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
 
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.define "origin" do |server|
+    server.vm.provision "shell", inline: <<-SHELL
     set -e
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
@@ -91,8 +92,10 @@ Vagrant.configure("2") do |config|
     )
     rm -rf ${GITDIR}
   SHELL
-
-  config.vm.provision "benchmarker", inline: <<-SHELL
+  end
+  
+  config.vm.define "benchmarker" do |server|
+    server.vm.provision "shell", inline: <<-SHELL
     set -e
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
@@ -107,4 +110,5 @@ Vagrant.configure("2") do |config|
     )
     rm -rf ${GITDIR}
   SHELL
+  end
 end
