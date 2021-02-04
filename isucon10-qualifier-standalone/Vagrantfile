@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
-  config.vm.network "private_network", type: "dhcp"
+  # config.vm.network "private_network", type: "dhcp"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -76,6 +76,7 @@ Vagrant.configure("2") do |config|
   # SHELL
 
   config.vm.define "server0" do |server|
+    server.vm.network "private_network", ip: "172.28.128.81"
     server.vm.provision "shell", inline: <<-SHELL
     set -e
     export DEBIAN_FRONTEND=noninteractive
@@ -94,6 +95,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "server1" do |server|
+    server.vm.network "private_network", ip: "172.28.128.80"
     server.vm.provision "shell", inline: <<-SHELL
     set -e
     export DEBIAN_FRONTEND=noninteractive
@@ -112,6 +114,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "server2" do |server|
+    server.vm.network "private_network", ip: "172.28.128.79"
     server.vm.provision "shell", inline: <<-SHELL
     set -e
     export DEBIAN_FRONTEND=noninteractive
@@ -123,13 +126,14 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/ER-Karato/isucon10-qualify.git ${GITDIR}
     (
         cd ${GITDIR}/provisioning/ansible
-        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i competitor, --connection=local competitor.yaml
+        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i competitorDB, --connection=local competitorDB.yaml
     )
     rm -rf ${GITDIR}
     SHELL
   end
 
   config.vm.define "server3" do |server|
+    server.vm.network "private_network", ip: "172.28.128.78"
     server.vm.provision "shell", inline: <<-SHELL
     set -e
     export DEBIAN_FRONTEND=noninteractive
@@ -141,7 +145,7 @@ Vagrant.configure("2") do |config|
     git clone https://github.com/ER-Karato/isucon10-qualify.git ${GITDIR}
     (
         cd ${GITDIR}/provisioning/ansible
-        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i competitor, --connection=local competitor.yaml
+        PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=true ansible-playbook -i competitorDB2, --connection=local competitorDB2.yaml
     )
     rm -rf ${GITDIR}
     SHELL
